@@ -42,7 +42,7 @@ def login_page():
     tk.Entry(login, textvariable = login_user, width = 20).pack(pady=2)
 
     tk.Label(login, text = "Enter Password:").pack(pady=5)
-    tk.Entry(login, textvariable = login_pass, width=20).pack(pady=2)
+    tk.Entry(login, textvariable = login_pass, width=20, show = "*").pack(pady=2)
 
     log_submit = tk.Button(login, text = "Submit", command = login_submit)
     log_submit.pack(pady=5)
