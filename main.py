@@ -20,6 +20,20 @@ bank.title("Bank Account Manager")
 bank.config(bg="lightblue")
 bank.withdraw()
 
+deposit_frame = tk.Frame(bank)
+
+tk.Label(deposit_frame, text = "You are now DEPOSITING.").pack()
+    
+tk.Label(deposit_frame, text = "Deposit Amount:").pack(pady=5)
+deposit_string = tk.StringVar()
+deposit_entry = tk.Entry(deposit_frame, textvariable = deposit_string, width = 20)
+deposit_entry.pack()
+
+tk.Label(deposit_frame, text = "Note:").pack(pady=10)
+deposit_note_string = tk.StringVar()
+deposit_note = tk.Entry(deposit_frame, textvariable = deposit_note_string, width = 30)
+deposit_note.pack()
+
 def signup_submit():
     user = username_text.get()
     pas = password_text.get()
@@ -30,9 +44,45 @@ def signup_submit():
 def login_submit():
     if username_text.get() == login_user.get() and password_text.get() == login_pass.get():
         bank.deiconify()
+        bank_page()
     else:
         tk.Label(login, text = "Either the username or password you entered incorrect.").pack(pady=10)
-        
+
+def bank_page():
+    button_frame = tk.Frame(bank)
+    button_frame.pack()
+    button1 = tk.Button(button_frame, text="Deposit", command = display_deposit)
+    button1.pack(padx = 5, pady = 5, side="left")
+
+    button2 = tk.Button(button_frame, text="Withdraw", command = display_withdraw)
+    button2.pack(padx = 5, pady = 5, side="left")
+
+def display_deposit():
+    tk.Label(bank, text = "You are now DEPOSITING.").pack()
+
+    tk.Label(bank, text = "Deposit Amount:").pack(pady=5)
+    deposit_string = tk.StringVar()
+    deposit_entry = tk.Entry(bank, textvariable = deposit_string, width = 20)
+    deposit_entry.pack()
+
+    tk.Label(bank, text = "Note:").pack(pady=10)
+    deposit_note_string = tk.StringVar()
+    deposit_note = tk.Entry(bank, textvariable = deposit_note_string, width = 30)
+    deposit_note.pack()
+
+def display_withdraw():
+    tk.Label(bank, text = "You are now WITHDRAWING.").pack()
+
+    tk.Label(bank, text = "Withdrawal Amount:").pack(pady=5)
+    withdraw_string = tk.StringVar()
+    withdraw_entry = tk.Entry(bank, textvariable = withdraw_string, width = 20)
+    withdraw_entry.pack()
+
+    tk.Label(bank, text = "Note:").pack(pady=10)
+    withdraw_note_string = tk.StringVar()
+    withdraw_note = tk.Entry(bank, textvariable = withdraw_note_string, width = 30)
+    withdraw_note.pack()
+
 
 def login_page():
     global login
@@ -48,9 +98,9 @@ def login_page():
     log_submit.pack(pady=5)
 
     #error from 51-53
-    if username_text.get() == login_user.get() and password_text.get() == login_pass.get():
+    '''if username_text.get() == login_user.get() and password_text.get() == login_pass.get():
         print("2")
-        log_submit.config(state = tk.DISABLED)
+        log_submit.config(state = tk.DISABLED)'''
 
 
 login_button = tk.Button(frame, text = "Login", command = login_page, width = 8, height = 2)
