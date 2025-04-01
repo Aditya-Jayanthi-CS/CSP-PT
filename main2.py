@@ -1,5 +1,4 @@
 import tkinter as tk
-import pickle
 frame = tk.Tk()
 
 frame.geometry("600x600")
@@ -25,23 +24,33 @@ widget_frame = tk.Frame(bank)
 
 deposit_string = tk.StringVar()
 deposit_note_string = tk.StringVar()
+amount_deposit = deposit_string.get()
+note_deposit = deposit_note_string.get()
 
 withdraw_string = tk.StringVar()
 withdraw_note_string = tk.StringVar()
+amount_withdraw = withdraw_string.get()
+note_withdraw = withdraw_note_string.get()
+
+username_text = tk.StringVar()
+password_text = tk.StringVar()
+user = username_text.get()
+pas = password_text.get()
 
 balance = 0
 
+def net():
+    customer_details = [user, balance]
+    f = open("Account_Details.txt", "+a")
+    f.write(customer_details)
+    f.close()
+
 def signup_submit():
-    user = username_text.get()
-    pas = password_text.get()
+    #user = username_text.get()
+    #pas = password_text.get()
     output = tk.Label(text = "Your information has been saved. \n You may continue to the login page.")
     output.pack(pady=2)
     submit_button.config(state = tk.DISABLED)
-
-    customer_details = [user, balance]
-    f = open("Customer_Details.dat","+ab")
-    pickle.dump(customer_details, f)
-    f.close()
 
 def login_submit():
     if username_text.get() == login_user.get() and password_text.get() == login_pass.get():
@@ -81,14 +90,33 @@ def display_deposit():
     deposit_submit.pack()
 
 def submit_deposit():
-    amount_deposit = deposit_string.get()
-    note_deposit = deposit_note_string.get()
+    #amount_deposit = deposit_string.get()
+    #note_deposit = deposit_note_string.get()
+    global balance
+    print("this: " + amount_deposit)
+    balance += float(amount_deposit)
 
     f = open("Account_Details.txt","+a")
     f.write("Deposited " + "$" + str(amount_deposit))
     f.write("\n")
     f.write(note_deposit)
     f.close()
+
+    net()
+
+def submit_withdraw():
+    #amount_withdraw = withdraw_string.get()
+    #note_withdraw = withdraw_note_string.get()
+    global balance
+    balance -= float(amount_withdraw)
+
+    f = open("Account_Details.txt","+a")
+    f.write("Withdrew " + "$" + str(amount_withdraw))
+    f.write("\n")
+    f.write(note_withdraw)
+    f.close()
+
+    net()
 
 def display_withdraw():
     clear_frame()
@@ -101,6 +129,9 @@ def display_withdraw():
     tk.Label(widget_frame, text = "Note:").pack(pady=10)
     withdraw_note = tk.Entry(widget_frame, textvariable = withdraw_note_string, width = 30)
     withdraw_note.pack()
+
+    withdraw_submit = tk.Button(widget_frame, text = "Submit", width = 10, command = submit_withdraw)
+    withdraw_submit.pack()
 
 def login_page():
     global login
@@ -121,14 +152,14 @@ login_button.pack(side = "top", anchor = "ne")
 username = tk.Label(text = "Username:")
 username.pack(pady=5)
 
-username_text = tk.StringVar()
+#username_text = tk.StringVar()
 username_entry = tk.Entry(frame, textvariable = username_text, width=20)
 username_entry.pack(pady=2)
 
 password = tk.Label(text = "Password:")
 password.pack(pady=5)
 
-password_text = tk.StringVar()
+#password_text = tk.StringVar()
 password_entry = tk.Entry(frame, textvariable = password_text, width=20, show = "*")
 password_entry.pack(pady=2)
 
