@@ -24,12 +24,10 @@ widget_frame = tk.Frame(bank)
 
 deposit_string = tk.StringVar()
 deposit_note_string = tk.StringVar()
-amount_deposit = deposit_string.get()
 note_deposit = deposit_note_string.get()
 
 withdraw_string = tk.StringVar()
 withdraw_note_string = tk.StringVar()
-amount_withdraw = withdraw_string.get()
 note_withdraw = withdraw_note_string.get()
 
 username_text = tk.StringVar()
@@ -40,9 +38,11 @@ pas = password_text.get()
 balance = 0
 
 def net():
-    customer_details = [user, balance]
+    #customer_details = [user, balance]
+    user = username_text.get()
     f = open("Account_Details.txt", "+a")
-    f.write(customer_details)
+    f.write("\n \nUsername: " + user + "\n")
+    f.write("Current Balance: " + str(balance))
     f.close()
 
 def signup_submit():
@@ -93,14 +93,8 @@ def submit_deposit():
     #amount_deposit = deposit_string.get()
     #note_deposit = deposit_note_string.get()
     global balance
-    print("this: " + amount_deposit)
+    amount_deposit = deposit_string.get()
     balance += float(amount_deposit)
-
-    f = open("Account_Details.txt","+a")
-    f.write("Deposited " + "$" + str(amount_deposit))
-    f.write("\n")
-    f.write(note_deposit)
-    f.close()
 
     net()
 
@@ -108,15 +102,13 @@ def submit_withdraw():
     #amount_withdraw = withdraw_string.get()
     #note_withdraw = withdraw_note_string.get()
     global balance
-    balance -= float(amount_withdraw)
+    amount_withdraw = withdraw_string.get()
 
-    f = open("Account_Details.txt","+a")
-    f.write("Withdrew " + "$" + str(amount_withdraw))
-    f.write("\n")
-    f.write(note_withdraw)
-    f.close()
-
-    net()
+    if balance - float(amount_withdraw) >= 0:
+        balance -= float(amount_withdraw)
+        net()
+    else:
+        tk.Label(widget_frame, text = "There is not sufficient money to withdraw").pack(pady=10)
 
 def display_withdraw():
     clear_frame()
