@@ -33,10 +33,10 @@ password_text = tk.StringVar()
 
 balance = 0
 
-def net():
-    user = username_text.get()
+def net(username, balance):
+    username = username_text.get()
     with open("Account_Details.txt", "a") as f:  # File mode for appending
-        f.write("\nUsername: " + user + "\n")
+        f.write("\nUsername: " + username + "\n")
         f.write("Current Balance: " + str(balance) + "\n")
 
 def signup_submit():
@@ -88,7 +88,7 @@ def submit_deposit():
         note_deposit = deposit_note_string.get()
         balance += amount_deposit
 
-        net()
+        net(username_text.get(), balance)
         with open("Account_Details.txt", "a") as f:  # Save deposit information
             f.write(f"Deposit Amount: {amount_deposit}\n")
             f.write(f"Deposit Note: {note_deposit}\n")
@@ -109,7 +109,7 @@ def submit_withdraw():
         if balance >= amount_withdraw:
             balance -= amount_withdraw
             
-            net()
+            net(username_text.get(), balance)
             with open("Account_Details.txt", "a") as f:  # Save withdrawal information
                 f.write(f"Withdraw Amount: {amount_withdraw}\n")
                 f.write(f"Withdraw Note: {note_withdraw}\n")
