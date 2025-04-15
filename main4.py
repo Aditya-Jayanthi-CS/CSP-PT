@@ -39,7 +39,7 @@ save = {}
 
 def net(username, balance):
     username = username_text.get()
-    with open("Account_Details.txt", "a") as f:  # File mode for appending
+    with open("Account_Details.txt", "a") as f:
         f.write("\nUsername: " + username + "\n")
         f.write("Current Balance: " + str(balance) + "\n")
 
@@ -69,7 +69,10 @@ def bank_page():
     widget_frame.pack()
 
 def display_statement():
+    global depwith_string
+    global num_transactions
     depwith_string = tk.StringVar()
+    depwith_string.set("Deposits")
     options = ["Deposits", "Withdrawal"]
     depwith = tk.OptionMenu(widget_frame, depwith_string, *options)
     depwith.pack(padx = 15, side="left")
@@ -85,7 +88,7 @@ def display_statement():
 
 def submit_mini(depwith, num_transactions):
     lst = []
-    if depwith == "Deposits":
+    if depwith_string.get() == "Deposits":
         for data in save.values():
             if data[0] == "D":
                 lst.append(data)
@@ -94,9 +97,8 @@ def submit_mini(depwith, num_transactions):
             if data[0] == "W":
                 lst.append(data)
     
-    number_transactions = 0
     number_transactions = num_transactions.get()
-    print("This: " + num_transactions.get())
+    print("This: " + number_transactions)
     for each in range(int(number_transactions)):
         tk.Label(widget_frame, text = lst[each]).pack(pady=10)
 
@@ -124,7 +126,7 @@ def submit_deposit():
     global balance
     global count_transactions
     try:
-        amount_deposit = float(deposit_string.get())  # Convert input to float
+        amount_deposit = float(deposit_string.get())
         note_deposit = deposit_note_string.get()
         balance += amount_deposit
 
@@ -133,7 +135,7 @@ def submit_deposit():
         save[count_transactions] = save_list
 
         net(username_text.get(), balance)
-        with open("Account_Details.txt", "a") as f:  # Save deposit information
+        with open("Account_Details.txt", "a") as f:
             f.write(f"Deposit Amount: {amount_deposit}\n")
             f.write(f"Deposit Note: {note_deposit}\n")
         
@@ -148,7 +150,7 @@ def submit_withdraw():
     global balance
     global count_transactions
     try:
-        amount_withdraw = float(withdraw_string.get())  # Convert input to float
+        amount_withdraw = float(withdraw_string.get())
         note_withdraw = withdraw_note_string.get()
 
         if balance >= amount_withdraw:
@@ -159,7 +161,7 @@ def submit_withdraw():
             save[count_transactions] = save_list
 
             net(username_text.get(), balance)
-            with open("Account_Details.txt", "a") as f:  # Save withdrawal information
+            with open("Account_Details.txt", "a") as f:
                 f.write(f"Withdraw Amount: {amount_withdraw}\n")
                 f.write(f"Withdraw Note: {note_withdraw}\n")
 
