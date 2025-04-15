@@ -71,12 +71,13 @@ def bank_page():
 def display_statement():
     depwith_string = tk.StringVar()
     options = ["Deposits", "Withdrawal"]
-    depwith = tk.OptionMenu(widget_frame, variable=depwith_string, default = options[0], *options)
+    depwith = tk.OptionMenu(widget_frame, depwith_string, *options)
     depwith.pack(padx = 15, side="left")
 
     num_transactions = tk.StringVar()
+    num_transactions.set("1")
     transaction_options = ["1", "2", "3", "4", "5"]
-    transactions = tk.OptionMenu(widget_frame, variable=num_transactions, default=transaction_options[0], *transaction_options)
+    transactions = tk.OptionMenu(widget_frame, num_transactions, *transaction_options)
     transactions.pack(padx=15, side="left")
 
     ok_submit = tk.Button(widget_frame, text = "Ok", command=submit_mini(depwith, num_transactions))
@@ -93,8 +94,11 @@ def submit_mini(depwith, num_transactions):
             if data[0] == "W":
                 lst.append(data)
     
-    #display transactions based on number
-
+    number_transactions = 0
+    number_transactions = num_transactions.get()
+    print("This: " + num_transactions.get())
+    for each in range(int(number_transactions)):
+        tk.Label(widget_frame, text = lst[each]).pack(pady=10)
 
 
 def clear_frame():
@@ -118,6 +122,7 @@ def display_deposit():
 
 def submit_deposit():
     global balance
+    global count_transactions
     try:
         amount_deposit = float(deposit_string.get())  # Convert input to float
         note_deposit = deposit_note_string.get()
@@ -141,6 +146,7 @@ def display_balance():
 
 def submit_withdraw():
     global balance
+    global count_transactions
     try:
         amount_withdraw = float(withdraw_string.get())  # Convert input to float
         note_withdraw = withdraw_note_string.get()
